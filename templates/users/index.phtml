@@ -1,13 +1,23 @@
 <form action="/users" method="get">
-    <input type="search" name="term" value="<?= htmlspecialchars($term) ?>" />
-    <input type="submit" value="Search" />
-    <a href="http://localhost:8888/users">Show all users</a>
-    <a href="http://localhost:8888/users/new">Add new user</a>
-<!--    <input type="submit" value="Clean" />-->
+    <input type="search" name="term" value="<?= htmlspecialchars($term) ?>"/>
+    <input type="submit" value="Search by nickname"/>
+    <br>
+    <a href="<?= $urlUsers ?>">Show all users</a>
+    <a href="<?= $urlNewUser ?>">Add new user</a>
+    <!--    <input type="submit" value="Clean" />-->
     <hr>
-    <?php foreach ($users as $user): ?>
-        <ul>
-            <li><?= htmlspecialchars($user['nickname']) ?> (<?= htmlspecialchars($user['email']) ?>, <?= htmlspecialchars($user['id']) ?>)</li>
-        </ul>
-    <?php endforeach ?>
+    <table border="1" cellpadding="4" cellspacing="0">
+        <tr align="left">
+            <th>Nickname</th>
+            <th>Email</th>
+            <th>id</th>
+        </tr>
+        <?php foreach ($users as $user): ?>
+            <tr>
+                <td><i><a href="<?= $urlUser[$user['nickname']] ?>"><?= htmlspecialchars($user['nickname']) ?></a></i></td>
+                <td><?= htmlspecialchars($user['email']) ?></td>
+                <td><?= htmlspecialchars($user['id']) ?></td>
+            </tr>
+        <?php endforeach ?>
+    </table>
 </form>
