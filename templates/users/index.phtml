@@ -1,0 +1,13 @@
+<form action="/users" method="get">
+    <input type="search" name="term" value="<?= htmlspecialchars($term) ?>" />
+    <input type="submit" value="Search" />
+    <a href="http://localhost:8888/users">All users</a>
+    <a href="http://localhost:8888/users/new">Add new user</a>
+<!--    <input type="submit" value="Clean" />-->
+    <hr>
+    <?php foreach ($users as $user): ?>
+        <ul>
+            <li><?= htmlspecialchars($user) ?></li>
+        </ul>
+    <?php endforeach ?>
+</form>
