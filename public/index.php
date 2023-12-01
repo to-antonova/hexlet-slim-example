@@ -7,7 +7,6 @@ use Slim\Factory\AppFactory;
 // Контейнеры в этом курсе не рассматриваются (это тема связанная с самим ООП), но если интересно, то посмотрите DI Container
 use DI\Container;
 
-$users = ['mike', 'mishel', 'adel', 'keks', 'kamila'];
 $usersListFile = 'users.json';
 
 $container = new Container();
@@ -27,23 +26,24 @@ $app->get('/', function ($request, $response) {
 });
 
 
-$app->get('/users', function ($request, $response, $args) use ($users) {
+$app->get('/users', function ($request, $response) use ($usersListFile) {
     $term = $request->getQueryParam('term');
+    $users = json_decode(file_get_contents($usersListFile), true);
+//    $users = [["nickname" => "mike","email" => "mike@mail.ru","id" => "0000000000001"]];
     $filteredUsers = array_filter($users, function ($user) use ($term){
-        return str_contains($user, $term);
+        return str_contains($user['nickname'], $term);
     });
     $params = [
         'users' => $filteredUsers,
-        'user' => $args['user'],
+        'user' => ['nickname' => '', 'email' => '', 'id' => ''],
         'term' => $term
     ];
     return $this->get('renderer')->render($response, 'users/index.phtml', $params);
 });
 
 $app->get('/users/new', function ($request, $response) {
-    $id = uniqid();
     $params = [
-        'user' => ['id' => $id, 'nickname' => '', 'email' => ''],
+        'user' => ['nickname' => '', 'email' => '', 'id' => ''],
         'errors' => []
     ];
     return $this->get('renderer')->render($response, "users/new.phtml", $params);
@@ -57,7 +57,9 @@ $app->get('/users/{id}', function ($request, $response, $args) {
 $app->post('/users', function ($request, $response) use ($usersListFile) {
     $user = $request->getParsedBodyParam('user');
     $user['id'] = uniqid();
-    file_put_contents($usersListFile, json_encode($user) . PHP_EOL,FILE_APPEND);
+    $users = json_decode(file_get_contents($usersListFile), true);
+    $users[] = $user;
+    file_put_contents($usersListFile, json_encode($users, JSON_PRETTY_PRINT));
     return $response->withRedirect('/users', 302);
 });
 

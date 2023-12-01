@@ -1,0 +1,52 @@
+[
+    {
+        "nickname": "mike",
+        "email": "mike@mail.ru",
+        "id": "0000000000001"
+    },
+    {
+        "nickname": "mishel",
+        "email": "mishel@mail.ru",
+        "id": "0000000000002"
+    },
+    {
+        "nickname": "adel",
+        "email": "adel@mail.ru",
+        "id": "0000000000003"
+    },
+    {
+        "nickname": "keks",
+        "email": "keks@mail.ru",
+        "id": "0000000000004"
+    },
+    {
+        "nickname": "kamila",
+        "email": "kamila@mail.ru",
+        "id": "0000000000005"
+    },
+    {
+        "nickname": "ss",
+        "email": "ss@mail.ru",
+        "id": "656961ef90de1"
+    },
+    {
+        "nickname": "dad",
+        "email": "dad@mail.ru",
+        "id": "656961fa37cc2"
+    },
+    {
+        "nickname": "mama",
+        "email": "mama@yandex.ru",
+        "id": "656968b2de339"
+    },
+    {
+        "nickname": "tatiana",
+        "email": "tatty@ya.com",
+        "id": "6569694504957"
+    },
+    {
+        "nickname": "love",
+        "email": "lovvv@ya.com",
+        "id": "65696a2dcbde5"
+    }
+]
