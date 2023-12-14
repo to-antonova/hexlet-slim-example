@@ -29,11 +29,13 @@ $app->addErrorMiddleware(true, true, true);
 
 $router = $app->getRouteCollector()->getRouteParser();
 
+
 $app->get('/', function ($request, $response) use ($router) {
     $router->urlFor('users.index');
     $router->urlFor('users.show', ['id' => '']);
     $router->urlFor('users.create');
     $router->urlFor('users.store');
+    $router->urlFor('users.destroy');
 
     $response->getBody()->write('Welcome to Slim!');
     return $response;
@@ -67,6 +69,7 @@ $app->get('/users', function ($request, $response) use ($router, $usersList) {
     return $this->get('renderer')->render($response, 'users/index.phtml', $params);
 })->setName('users.index');
 
+
 $app->get('/users/new', function ($request, $response) use ($router) {
     $urlUsers = $router->urlFor('users.index');
     $params = [
@@ -78,6 +81,7 @@ $app->get('/users/new', function ($request, $response) use ($router) {
     return $this->get('renderer')->render($response, "users/new.phtml", $params);
 })->setName('users.create');
 
+
 $app->get('/users/{id}', function ($request, $response, $args) use ($router, $usersList) {
     $id = $args['id'];
     $resultUser = [];
@@ -85,6 +89,7 @@ $app->get('/users/{id}', function ($request, $response, $args) use ($router, $us
         if ($user['nickname'] == $id) {
             $resultUser = $user;
             $urlEditUser = $router->urlFor('users.edit', ['id' => $user['nickname']]);
+            $urlDeleteUser = $router->urlFor('users.destroy', ['id' => $user['nickname']]);
         }
     }
     if (!$resultUser) {
@@ -97,6 +102,7 @@ $app->get('/users/{id}', function ($request, $response, $args) use ($router, $us
     $params = [
         'user' => $resultUser,
         'urlEditUser' => $urlEditUser,
+        'urlDeleteUser' => $urlDeleteUser,
         'urlUsers' => $urlUsers,
         'flash' => $messages
     ];
@@ -150,7 +156,6 @@ $app->post('/users', function ($request, $response) use ($router, $usersListFile
 
 
 $app->patch('/users/{id}', function ($request, $response, array $args) use ($router, $usersList, $usersListFile)  {
-
     $id = $args['id'];
 
     $user = [];
@@ -193,5 +198,23 @@ $app->patch('/users/{id}', function ($request, $response, array $args) use ($rou
     $response = $response->withStatus(422);
     return $this->get('renderer')->render($response, 'users/edit.phtml', $params);
 })->setName('users.update');
+
+
+$app->delete('/users/{id}', function ($request, $response, array $args) use ($router, $usersList, $usersListFile) {
+    $id = $args['id'];
+    $updatedUserList = [];
+    foreach ($usersList as $userInList) {
+        if ($userInList['id'] == $id) {
+            unset($userInList);
+        } else {
+            $updatedUserList[] = $userInList;
+        }
+    }
+
+    file_put_contents($usersListFile, json_encode($updatedUserList, JSON_PRETTY_PRINT));
+
+    $this->get('flash')->addMessage('success', 'User has been deleted');
+    return $response->withRedirect($router->urlFor('users.index'));
+})->setName('users.destroy');
 
 $app->run();

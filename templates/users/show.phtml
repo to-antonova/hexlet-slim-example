@@ -13,4 +13,11 @@
     </div>
 <?php endforeach ?>
 <a href="<?= $urlEditUser ?>">Edit user</a>
+<br>
+<form action="/users/<?= $user['id'] ?>" method="post">
+    <input type="hidden" name="_METHOD" value="DELETE">
+    <button>
+        Delete user
+    </button>
+</form>
 <a href="<?= $urlUsers ?>">Show all users</a>
