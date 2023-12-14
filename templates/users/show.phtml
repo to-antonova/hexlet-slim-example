@@ -1,5 +1,16 @@
-<ul style="list-style-type:none">
-    <li>id = <?= htmlspecialchars($user['id']) ?></li>
-    <li>nickname = <?= htmlspecialchars($user['nickname']) ?></li>
-    <li>email = <?= htmlspecialchars($user['email']) ?></li>
-</ul>
+<?php if (count($flash) > 0) : ?>
+    <ul style="list-style-type:none">
+        <?php foreach ($flash as $messages) : ?>
+            <?php foreach ($messages as $message) : ?>
+                <li><?= $message ?></li>
+            <?php endforeach ?>
+        <?php endforeach ?>
+    </ul>
+<?php endif ?>
+<?php foreach ($user as $key => $value): ?>
+    <div>
+        <u><?= htmlspecialchars($key) ?></u>: <?= htmlspecialchars($value) ?>
+    </div>
+<?php endforeach ?>
+<a href="<?= $urlEditUser ?>">Edit user</a>
+<a href="<?= $urlUsers ?>">Show all users</a>

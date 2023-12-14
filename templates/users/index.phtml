@@ -1,10 +1,18 @@
 <form action="/users" method="get">
+    <?php if (count($flash) > 0) : ?>
+        <ul style="list-style-type:none">
+            <?php foreach ($flash as $messages) : ?>
+                <?php foreach ($messages as $message) : ?>
+                    <li><?= $message ?></li>
+                <?php endforeach ?>
+            <?php endforeach ?>
+        </ul>
+    <?php endif ?>
     <input type="search" name="term" value="<?= htmlspecialchars($term) ?>"/>
     <input type="submit" value="Search by nickname"/>
     <br>
     <a href="<?= $urlUsers ?>">Show all users</a>
     <a href="<?= $urlNewUser ?>">Add new user</a>
-    <!--    <input type="submit" value="Clean" />-->
     <hr>
     <table border="1" cellpadding="4" cellspacing="0">
         <tr align="left">

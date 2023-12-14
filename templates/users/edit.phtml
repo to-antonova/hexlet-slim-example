@@ -1,9 +1,8 @@
-<form action="/users" method="post">
-    <h1>New User</h1>
-    <hr>
+<form action="/users/<?= htmlspecialchars($user['nickname']) ?>" method="post">
+    <input type="hidden" name="_METHOD" value="PATCH">
     <div>
         <label>
-            Nickname:
+            Nickname *
             <input type="text" name="user[nickname]" value="<?= htmlspecialchars($user['nickname'] ?? '') ?>">
         </label>
         <?php if (isset($errors['nickname'])): ?>
@@ -12,14 +11,17 @@
     </div>
     <div>
         <label>
-            Email:
-            <input type="email" name="user[email]" value="<?= htmlspecialchars($user['email'] ?? '') ?>">
+            Email *
+            <input type="text" name="user[email]" value="<?= htmlspecialchars($user['email'] ?? '') ?>">
         </label>
         <?php if (isset($errors['email'])): ?>
             <div><?= $errors['email'] ?></div>
         <?php endif ?>
     </div>
-    <input type="submit" value="Submit" />
-    <br>
-    <a href="<?= $urlUsers ?>">Show all users</a>
+    <div>
+        <label>
+            id: <?= htmlspecialchars($user['id']) ?>
+        </label>
+    </div>
+    <input type="submit" value="Update">
 </form>
