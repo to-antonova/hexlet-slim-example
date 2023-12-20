@@ -29,14 +29,17 @@ $app->addErrorMiddleware(true, true, true);
 
 $router = $app->getRouteCollector()->getRouteParser();
 
-
-$app->get('/', function ($request, $response) use ($router) {
+$app->get('/router', function ($request, $response) use ($router) {
     $router->urlFor('users.index');
     $router->urlFor('users.show', ['id' => '']);
     $router->urlFor('users.create');
     $router->urlFor('users.store');
     $router->urlFor('users.destroy');
+    return $this->get('renderer')->render($response, 'index.phtml');
+});
 
+$app->get('/', function ($request, $response) {
+    phpinfo();
     $response->getBody()->write('Welcome to Slim!');
     return $response;
     // Благодаря пакету slim/http этот же код можно записать короче
